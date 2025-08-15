@@ -6,9 +6,11 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+// import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Products } from './collections/Products'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -20,18 +22,34 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  // email: nodemailerAdapter(),
+  collections: [Users, Media, Products],
   editor: lexicalEditor(),
+  cors: {
+    origins: ['http://localhost:3000'],
+    headers: ['Content-Type', 'Authorization'], // si necesitas headers adicionales
+  },
+  csrf: ['http://localhost:3000'], // mantener lista de orígenes para cookies
+
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
+    connectOptions: {
+      tls: true,
+      tlsAllowInvalidCertificates: true,
+      tlsAllowInvalidHostnames: true,
+      family: 4,
+      serverSelectionTimeoutMS: 30000,
+      socketTimeoutMS: 20000,
+    },
   }),
   sharp,
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder
   ],
+  serverURL: 'http://localhost:3001',
 })

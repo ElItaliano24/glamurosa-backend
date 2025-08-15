@@ -10,4 +10,8 @@ export const Users: CollectionConfig = {
     // Email added by default
     // Add more fields as needed
   ],
+  // access: {
+  //   // Permite que cualquier persona pueda ejecutar el Forgot Password
+  //   forgotPassword: () => true,
+  // },
 }

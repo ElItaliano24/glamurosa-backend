@@ -37,7 +37,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "resetPasword.js"  ],
   "exclude": [
     "node_modules"
   ],
