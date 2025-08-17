@@ -50,5 +50,5 @@ export default buildConfig({
     payloadCloudPlugin(),
     // storage-adapter-placeholder
   ],
-  serverURL: 'http://localhost:3001',
+  serverURL: 'https://glamurosa-backend.vercel.app',
 })
