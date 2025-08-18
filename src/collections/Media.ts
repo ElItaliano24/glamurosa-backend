@@ -12,5 +12,9 @@ export const Media: CollectionConfig = {
       required: true,
     },
   ],
-  upload: true,
+  upload: {
+    disableLocalStorage: true,
+    crop: false,        // desactiva el selector de recorte
+    focalPoint: false,  // desactiva la selección del punto focal
+  },
 }
