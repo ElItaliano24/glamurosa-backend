@@ -12,6 +12,8 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Products } from './collections/Products'
 
+import { cloudinaryStorage } from 'payload-cloudinary';
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -48,6 +50,17 @@ export default buildConfig({
   sharp,
   plugins: [
     payloadCloudPlugin(),
+    cloudinaryStorage({
+      config: {
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET,
+      },
+      collections: {
+        media: true, // aplica Cloudinary a tu colección media
+      },
+      folder: 'glamurosa-media', // opcional
+    }),
     // storage-adapter-placeholder
   ],
   serverURL: 'https://glamurosa-backend.vercel.app',
