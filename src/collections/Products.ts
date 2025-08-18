@@ -2,7 +2,7 @@ import { CollectionConfig } from "payload";
 
 export const Products: CollectionConfig = {
     slug: 'products',
-    admin: { useAsTitle: 'name' },
+    admin: { useAsTitle: 'name'},
     access: {
         read: () => true, 
     },
