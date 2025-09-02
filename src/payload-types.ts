@@ -226,6 +226,8 @@ export interface Product {
   name: string;
   description?: string | null;
   price: number;
+  size?: string | null;
+  colors?: ('negro' | 'blanco' | 'rojo' | 'azul' | 'verde' | 'amarillo' | 'rosa' | 'morado')[] | null;
   images?:
     | {
         image?: (string | null) | Media;
@@ -360,6 +362,8 @@ export interface ProductsSelect<T extends boolean = true> {
   name?: T;
   description?: T;
   price?: T;
+  size?: T;
+  colors?: T;
   images?:
     | T
     | {

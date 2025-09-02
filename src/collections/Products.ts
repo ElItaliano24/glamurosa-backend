@@ -17,7 +17,8 @@ export const Products: CollectionConfig = {
         },
         {
             name: 'colors',
-            type: 'select',  // <-- cambiar select por checkboxes
+            type: 'select',
+            hasMany: true,   // permite seleccionar varios
             label: 'Colores disponibles',
             options: [
                 { label: 'Negro', value: 'negro' },
