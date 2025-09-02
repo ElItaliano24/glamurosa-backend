@@ -28,7 +28,6 @@ export const Products: CollectionConfig = {
                 { label: 'Verde', value: 'verde' },
                 { label: 'Amarillo', value: 'amarillo' },
                 { label: 'Rosa', value: 'rosa' },
-                { label: 'Morado', value: 'morado' }
             ],
         },
         {
