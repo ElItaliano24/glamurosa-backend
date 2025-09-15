@@ -37,5 +37,18 @@ export const Products: CollectionConfig = {
                 { name: 'image', type: 'upload', relationTo: 'media' }
             ],
         },
+        {
+            name: 'category',
+            type: 'select',
+            label: 'Categoría',
+            options: [
+                { label: 'BASICOS EN RIB', value: 'basicos en rib' },
+                { label: 'BASICOS EN SUPLEX', value: 'basicos en suplex' },
+                { label: 'CHOMPAS Y CHOMPEROS', value: 'chompas y chomperos' },
+                { label: 'SACOS Y CONJUNTOS', value: 'sacos y conjuntos' },
+                { label: 'PANTALONES', value: 'pantalones' },
+                { label: 'LIQUIDACIONES', value: 'liquidaciones' },
+            ],
+        }
     ],
 }
