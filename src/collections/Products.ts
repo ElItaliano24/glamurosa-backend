@@ -6,6 +6,7 @@ export const Products: CollectionConfig = {
     access: {
         read: () => true,
     },
+    pagination: false,
     fields: [
         { name: 'name', type: 'text', required: true },
         { name: 'description', type: 'textarea' },
