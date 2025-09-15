@@ -28,10 +28,10 @@ export default buildConfig({
   collections: [Users, Media, Products],
   editor: lexicalEditor(),
   cors: {
-    origins: ['http://localhost:3000', 'https://glamurosa-frontend.vercel.app'],
+    origins: ['http://localhost:3000', 'https://glamurosa.vercel.app'],
     headers: ['Content-Type', 'Authorization'],
   },
-  csrf: ['http://localhost:3000', 'https://glamurosa-frontend.vercel.app'],
+  csrf: ['http://localhost:3000', 'https://glamurosa.vercel.app'],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
