@@ -13,6 +13,7 @@ import { Media } from './collections/Media'
 import { Products } from './collections/Products'
 
 import { cloudinaryStorage } from 'payload-cloudinary';
+import app from 'next/app'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -61,7 +62,7 @@ export default buildConfig({
       },
       folder: 'glamurosa-media', // opcional
     }),
-    // storage-adapter-placeholder
   ],
+  
   serverURL: 'https://glamurosa-backend.vercel.app',
 })

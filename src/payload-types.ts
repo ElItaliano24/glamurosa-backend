@@ -227,12 +227,22 @@ export interface Product {
   description?: string | null;
   price: number;
   size?: string | null;
-  colors?: ('negro' | 'blanco' | 'rojo' | 'azul' | 'verde' | 'amarillo' | 'rosa' | 'morado')[] | null;
+  colors?: ('negro' | 'blanco' | 'rojo' | 'azul' | 'verde' | 'amarillo' | 'rosa')[] | null;
   images?:
     | {
         image?: (string | null) | Media;
         id?: string | null;
       }[]
+    | null;
+  category?:
+    | (
+        | 'basicos en rib'
+        | 'basicos en suplex'
+        | 'chompas y chomperos'
+        | 'sacos y conjuntos'
+        | 'pantalones'
+        | 'liquidaciones'
+      )
     | null;
   updatedAt: string;
   createdAt: string;
@@ -370,6 +380,7 @@ export interface ProductsSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
+  category?: T;
   updatedAt?: T;
   createdAt?: T;
 }

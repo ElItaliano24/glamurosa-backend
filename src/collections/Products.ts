@@ -2,7 +2,10 @@ import { CollectionConfig } from "payload";
 
 export const Products: CollectionConfig = {
     slug: 'products',
-    admin: { useAsTitle: 'name' },
+    admin: { 
+        useAsTitle: 'name',
+        defaultColumns: ['name', "description", 'price', 'size', 'category']
+    },
     access: {
         read: () => true,
     },
@@ -10,16 +13,8 @@ export const Products: CollectionConfig = {
         { name: 'name', type: 'text', required: true },
         { name: 'description', type: 'textarea' },
         { name: 'price', type: 'number', required: true },
-        {
-            name: 'size',
-            type: 'text',
-            label: 'Talla',
-        },
-        {
-            name: 'colors',
-            type: 'select',
-            hasMany: true,   // permite seleccionar varios
-            label: 'Colores disponibles',
+        { name: 'size', type: 'text', label: 'Talla' },
+        { name: 'colors', type: 'select', hasMany: true, label: 'Colores disponibles',
             options: [
                 { label: 'Negro', value: 'negro' },
                 { label: 'Blanco', value: 'blanco' },
