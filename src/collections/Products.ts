@@ -4,17 +4,39 @@ export const Products: CollectionConfig = {
     slug: 'products',
     admin: { 
         useAsTitle: 'name',
-        defaultColumns: ['name', "description", 'price', 'size', 'category']
+        defaultColumns: ['sku', 'name', 'price', 'stock', 'category']
     },
     access: {
         read: () => true,
     },
     fields: [
+        {
+            name: 'sku',
+            type: 'text',
+            label: 'ID/SKU (Excel)',
+            unique: true,
+            admin: {
+                description: 'Identificador único del producto, debe coincidir con el SKU en el archivo de Excel.'
+            }
+        },
         { name: 'name', type: 'text', required: true },
         { name: 'description', type: 'textarea' },
         { name: 'price', type: 'number', required: true },
-        { name: 'size', type: 'text', label: 'Talla' },
-        { name: 'colors', type: 'select', hasMany: true, label: 'Colores disponibles',
+        { 
+            name: 'stock', 
+            type: 'number',
+            defaultValue: 0,
+            label: 'Stock actual',
+            admin: {
+                description: 'Se actualiza automáticamente desde el Excel'
+            }
+        },
+        { name: 'size', type: 'text', label: 'Talla'},
+        { 
+            name: 'colors', 
+            type: 'select', 
+            hasMany: true, 
+            label: 'Colores disponibles',
             options: [
                 { label: 'Negro', value: 'negro' },
                 { label: 'Blanco', value: 'blanco' },
@@ -37,12 +59,12 @@ export const Products: CollectionConfig = {
             type: 'select',
             label: 'Categoría',
             options: [
-                { label: 'BASICOS EN RIB', value: 'basicos en rib' },
-                { label: 'BASICOS EN SUPLEX', value: 'basicos en suplex' },
-                { label: 'CHOMPAS Y CHOMPEROS', value: 'chompas y chomperos' },
-                { label: 'SACOS Y CONJUNTOS', value: 'sacos y conjuntos' },
-                { label: 'PANTALONES', value: 'pantalones' },
-                { label: 'LIQUIDACIONES', value: 'liquidaciones' },
+                { label: 'BASICOS EN RIB', value: 'BASICOS EN RIB' },
+                { label: 'BASICOS EN SUPLEX', value: 'BASICOS EN SUPLEX' },
+                { label: 'CHOMPAS Y CHOMPEROS', value: 'CHOMPAS Y CHOMPEROS' },
+                { label: 'SACOS Y CONJUNTOS', value: 'SACOS Y CONJUNTOS' },
+                { label: 'PANTALONES', value: 'PANTALONES' },
+                { label: 'LIQUIDACIONES', value: 'LIQUIDACIONES' },
             ],
         }
     ],
