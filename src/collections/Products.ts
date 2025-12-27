@@ -2,7 +2,7 @@ import { CollectionConfig } from "payload";
 
 export const Products: CollectionConfig = {
     slug: 'products',
-    admin: { 
+    admin: {
         useAsTitle: 'name',
         defaultColumns: ['sku', 'name', 'price', 'stock', 'category']
     },
@@ -22,8 +22,8 @@ export const Products: CollectionConfig = {
         { name: 'name', type: 'text', required: true },
         { name: 'description', type: 'textarea' },
         { name: 'price', type: 'number', required: true },
-        { 
-            name: 'stock', 
+        {
+            name: 'stock',
             type: 'number',
             defaultValue: 0,
             label: 'Stock actual',
@@ -31,11 +31,11 @@ export const Products: CollectionConfig = {
                 description: 'Se actualiza automáticamente desde el Excel'
             }
         },
-        { name: 'size', type: 'text', label: 'Talla'},
-        { 
-            name: 'colors', 
-            type: 'select', 
-            hasMany: true, 
+        { name: 'size', type: 'text', label: 'Talla' },
+        {
+            name: 'colors',
+            type: 'select',
+            hasMany: true,
             label: 'Colores disponibles',
             options: [
                 { label: 'Negro', value: 'negro' },
@@ -66,6 +66,39 @@ export const Products: CollectionConfig = {
                 { label: 'PANTALONES', value: 'PANTALONES' },
                 { label: 'LIQUIDACIONES', value: 'LIQUIDACIONES' },
             ],
+        }
+    ],
+    endpoints: [
+        {
+
+            path: '/sync-excel',
+            method: 'get',
+            handler: async (req) => {
+                // 1. EXTRAER EL TOKEN DE LA URL
+                const { searchParams } = new URL(req.url);
+                const tokenRecibido = searchParams.get('token');
+
+                // 2. VALIDAR CON LA VARIABLE DE ENTORNO DE VERCEL
+                const tokenValido = process.env.SYNC_TOKEN;
+
+                // Si no hay token o no coincide, cerramos la puerta de inmediato
+                if (!tokenRecibido || tokenRecibido !== tokenValido) {
+                    return Response.json(
+                        { error: 'No autorizado. El SYNC_TOKEN es incorrecto.' },
+                        { status: 401 }
+                    );
+                }
+
+                // 3. AQUÍ IRÁ LA LÓGICA DE GOOGLE SHEETS (que añadiremos en el siguiente paso)
+                try {
+                    // Por ahora, solo devolvemos un mensaje de éxito para probar la llave
+                    return Response.json({
+                        message: '✅ Token verificado. La puerta está abierta para la sincronización.'
+                    });
+                } catch (error: any) {
+                    return Response.json({ error: error.message }, { status: 500 });
+                }
+            }
         }
     ],
 }
