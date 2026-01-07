@@ -1,5 +1,6 @@
 import { CollectionConfig } from "payload";
 import { JWT } from "google-auth-library";
+import { GoogleSpreadsheet } from "google-spreadsheet";
 
 export const Products: CollectionConfig = {
     slug: 'products',
@@ -99,12 +100,16 @@ export const Products: CollectionConfig = {
                         scopes: ['https://www.googleapis.com/auth/spreadsheets'],
                     })
 
-                    await serviceAccountAuth.authorize();
+                    const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID || '', serviceAccountAuth);
+
+                    await doc.loadInfo(); 
 
                     return Response.json({
-                        message: '✅ ¡Conexión exitosa!',
-                        details: 'Payload logró autenticarse con Google Cloud correctamente.'
+                        message: `✅ ¡Conexión total exitosa!`,
+                        details: `Conectado al Excel: "${doc.title}"`,
+                        hojas: `El archivo tiene ${doc.sheetCount} pestañas.`
                     });
+
                 } catch (error: any) {
                     // Si la llave es inválida o el email está mal, el error saldrá aquí
                     return Response.json({ 
