@@ -1,4 +1,5 @@
 import { CollectionConfig } from "payload";
+import { JWT } from "google-auth-library";
 
 export const Products: CollectionConfig = {
     slug: 'products',
@@ -89,14 +90,27 @@ export const Products: CollectionConfig = {
                     );
                 }
 
-                // 3. AQUÍ IRÁ LA LÓGICA DE GOOGLE SHEETS (que añadiremos en el siguiente paso)
+                // 3. AQUÍ IRÁ LA LÓGICA DE GOOGLE SHEETS
                 try {
-                    // Por ahora, solo devolvemos un mensaje de éxito para probar la llave
+
+                    const serviceAccountAuth = new JWT({
+                        email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+                        key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+                        scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+                    })
+
+                    await serviceAccountAuth.authorize();
+
                     return Response.json({
-                        message: '✅ Token verificado. La puerta está abierta para la sincronización.'
+                        message: '✅ ¡Conexión exitosa!',
+                        details: 'Payload logró autenticarse con Google Cloud correctamente.'
                     });
                 } catch (error: any) {
-                    return Response.json({ error: error.message }, { status: 500 });
+                    // Si la llave es inválida o el email está mal, el error saldrá aquí
+                    return Response.json({ 
+                        error: '❌ Error de conexión con Google',
+                        debug: error.message 
+                    }, { status: 500 });
                 }
             }
         }
