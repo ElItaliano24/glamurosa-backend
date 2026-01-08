@@ -129,6 +129,7 @@ export const Products: CollectionConfig = {
                         const precioExcel = row.get('PRECIO');
                         const stockExcel = row.get('STOCK');
                         const estadoExcel = row.get('ESTADO');
+                        const categoriaExcel = row.get('CATEGORIA');
 
                         if (idExcel) {
                             // 3. BUSCAR PRODUCTO EN PAYLOAD POR SKU
@@ -153,7 +154,8 @@ export const Products: CollectionConfig = {
                                         name: nombreExcel || result.docs[0].name,
                                         price: precioNumerico || 0,
                                         stock: parseInt(stockExcel) || 0,
-                                        status: estadoExcel || result.docs[0].status
+                                        status: estadoExcel || result.docs[0].status,
+                                        category: categoriaExcel || result.docs[0].category,
                                     }
                                 });
                                 actualizados++;
