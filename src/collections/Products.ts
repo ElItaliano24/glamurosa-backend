@@ -68,6 +68,18 @@ export const Products: CollectionConfig = {
                 { label: 'PANTALONES', value: 'PANTALONES' },
                 { label: 'LIQUIDACIONES', value: 'LIQUIDACIONES' },
             ],
+        },
+        {
+            name: 'status',
+            type: 'select',
+            label: 'Estado',
+            options: [
+                { label: 'Activo', value: 'Activo' },
+                { label: 'Agotado', value: 'Agotado' },
+            ],
+            admin: {
+                description: 'Se sincroniza desde la columna ESTADO del Excel'
+            }
         }
     ],
     endpoints: [
@@ -101,10 +113,10 @@ export const Products: CollectionConfig = {
                     })
 
                     const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID || '', serviceAccountAuth);
-                    await doc.loadInfo(); 
+                    await doc.loadInfo();
 
                     // 1. SELECCIONAR LA PRIMERA HOJA Y OBTENER FILAS
-                    const sheet = doc.sheetsByIndex[0]; 
+                    const sheet = doc.sheetsByIndex[0];
                     const rows = await sheet.getRows();
 
                     let actualizados = 0;
@@ -112,24 +124,25 @@ export const Products: CollectionConfig = {
 
                     // 2. RECORRER CADA FILA DEL EXCEL
                     for (const row of rows) {
-                        const idExcel = row.get('ID'); 
+                        const idExcel = row.get('ID');
                         const nombreExcel = row.get('NOMBRE DEL PRODUCTO');
                         const precioExcel = row.get('PRECIO');
                         const stockExcel = row.get('STOCK');
+                        const estadoExcel = row.get('ESTADO');
 
                         if (idExcel) {
                             // 3. BUSCAR PRODUCTO EN PAYLOAD POR SKU
                             const result = await req.payload.find({
                                 collection: 'products',
                                 where: {
-                                    sku: { equals: idExcel } 
+                                    sku: { equals: idExcel }
                                 }
                             });
 
                             if (result.docs.length > 0) {
                                 // 4. LIMPIAR PRECIO (Convierte "154,00" a 154.00)
-                                const precioNumerico = typeof precioExcel === 'string' 
-                                    ? parseFloat(precioExcel.replace(',', '.')) 
+                                const precioNumerico = typeof precioExcel === 'string'
+                                    ? parseFloat(precioExcel.replace(',', '.'))
                                     : parseFloat(precioExcel);
 
                                 // 5. ACTUALIZAR EN PAYLOAD
@@ -139,7 +152,8 @@ export const Products: CollectionConfig = {
                                     data: {
                                         name: nombreExcel || result.docs[0].name,
                                         price: precioNumerico || 0,
-                                        stock: parseInt(stockExcel) || 0
+                                        stock: parseInt(stockExcel) || 0,
+                                        status: estadoExcel || result.docs[0].status
                                     }
                                 });
                                 actualizados++;
@@ -156,9 +170,9 @@ export const Products: CollectionConfig = {
                     });
 
                 } catch (error: any) {
-                    return Response.json({ 
+                    return Response.json({
                         error: '❌ Error en la sincronización',
-                        debug: error.message 
+                        debug: error.message
                     }, { status: 500 });
                 }
             }
