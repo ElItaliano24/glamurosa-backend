@@ -33,32 +33,38 @@ export const Products: CollectionConfig = {
             },
             fields: [
                 {
-                    name: 'color',
-                    type: 'select',
-                    required: true,
-                    options: [
-                        { label: 'Negro', value: 'negro' },
-                        { label: 'Blanco', value: 'blanco' },
-                        { label: 'Rojo', value: 'rojo' },
-                        { label: 'Azul', value: 'azul' },
-                        { label: 'Verde', value: 'verde' },
-                        { label: 'Amarillo', value: 'amarillo' },
-                        { label: 'Rosa', value: 'rosa' },
+                    type: 'row',
+                    fields: [
+                        {
+                            name: 'color',
+                            type: 'select',
+                            label: 'Color',
+                            required: true,
+                            options: [
+                                { label: 'Negro', value: 'negro' },
+                                { label: 'Blanco', value: 'blanco' },
+                                { label: 'Rojo', value: 'rojo' },
+                                { label: 'Azul', value: 'azul' },
+                                { label: 'Verde', value: 'verde' },
+                                { label: 'Amarillo', value: 'amarillo' },
+                                { label: 'Rosa', value: 'rosa' },
+                            ],
+                            admin: {
+                                width: '50%',
+                            }
+                        },
+                        {
+                            name: 'quantity',
+                            type: 'number',
+                            label: 'Cantidad / Stock',
+                            required: true,
+                            min: 0,
+                            admin: {
+                                width: '50%',
+                            }
+                        }
                     ],
-                    admin: {
-                        width: '50%',
-                    }
                 },
-                {
-                    name: 'quantity',
-                    type: 'number',
-                    label: 'Cantidad / Stock',
-                    required: true,
-                    min: 0,
-                    admin: {
-                        width: '50%',
-                    }
-                }
             ]
         },
         // ...
