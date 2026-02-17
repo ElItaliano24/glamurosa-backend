@@ -6,7 +6,7 @@ export const Products: CollectionConfig = {
     slug: 'products',
     admin: {
         useAsTitle: 'name',
-        defaultColumns: ['sku', 'name', 'price', 'stock', 'category']
+        defaultColumns: ['sku', 'name', 'price', 'category']
     },
     access: {
         read: () => true,
@@ -25,30 +25,44 @@ export const Products: CollectionConfig = {
         { name: 'description', type: 'textarea' },
         { name: 'price', type: 'number', required: true },
         {
-            name: 'stock',
-            type: 'number',
-            defaultValue: 0,
-            label: 'Stock actual',
+            name: 'inventario',
+            type: 'array',
+            label: 'Inventario',
             admin: {
-                description: 'Se actualiza automáticamente desde el Excel'
-            }
+                description: 'Define qué colores hay disponibles y cuántas unidades hay de cada uno.'
+            },
+            fields: [
+                {
+                    name: 'color',
+                    type: 'select',
+                    required: true,
+                    options: [
+                        { label: 'Negro', value: 'negro' },
+                        { label: 'Blanco', value: 'blanco' },
+                        { label: 'Rojo', value: 'rojo' },
+                        { label: 'Azul', value: 'azul' },
+                        { label: 'Verde', value: 'verde' },
+                        { label: 'Amarillo', value: 'amarillo' },
+                        { label: 'Rosa', value: 'rosa' },
+                    ],
+                    admin: {
+                        width: '50%',
+                    }
+                },
+                {
+                    name: 'quantity',
+                    type: 'number',
+                    label: 'Cantidad / Stock',
+                    required: true,
+                    min: 0,
+                    admin: {
+                        width: '50%',
+                    }
+                }
+            ]
         },
+        // ...
         { name: 'size', type: 'text', label: 'Talla' },
-        {
-            name: 'colors',
-            type: 'select',
-            hasMany: true,
-            label: 'Colores disponibles',
-            options: [
-                { label: 'Negro', value: 'negro' },
-                { label: 'Blanco', value: 'blanco' },
-                { label: 'Rojo', value: 'rojo' },
-                { label: 'Azul', value: 'azul' },
-                { label: 'Verde', value: 'verde' },
-                { label: 'Amarillo', value: 'amarillo' },
-                { label: 'Rosa', value: 'rosa' },
-            ],
-        },
         {
             name: 'images',
             type: 'array',
@@ -127,7 +141,6 @@ export const Products: CollectionConfig = {
                         const idExcel = row.get('ID');
                         const nombreExcel = row.get('NOMBRE DEL PRODUCTO');
                         const precioExcel = row.get('PRECIO');
-                        const stockExcel = row.get('STOCK');
                         const estadoExcel = row.get('ESTADO');
                         const categoriaExcel = row.get('CATEGORIA');
 
@@ -153,7 +166,6 @@ export const Products: CollectionConfig = {
                                     data: {
                                         name: nombreExcel || result.docs[0].name,
                                         price: precioNumerico || 0,
-                                        stock: parseInt(stockExcel) || 0,
                                         status: estadoExcel || result.docs[0].status,
                                         category: categoriaExcel || result.docs[0].category,
                                     }
