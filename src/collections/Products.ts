@@ -40,6 +40,13 @@ export const Products: CollectionConfig = {
                             type: 'select',
                             label: 'Color',
                             required: true,
+                            validate: (val: any, { data }: any) => {
+                                const duplicados = data?.inventario?.filter((item: any) => item.color === val);
+                                if (duplicados && duplicados.length > 1) {
+                                    return 'Este color ya está en el inventario';
+                                }
+                                return true;
+                            },
                             options: [
                                 { label: 'Negro', value: 'negro' },
                                 { label: 'Blanco', value: 'blanco' },
